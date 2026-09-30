@@ -1,0 +1,88 @@
+=== Test 1: original warehouse (A*, Manhattan) ===
+#################
+#S****#*********#
+#.###*#*#######*#
+#...#*#*******#*#
+###.#*#######*#*#
+#...#*********#*#
+#.###########.#*#
+#.............#G#
+#################
+Path (row,col): (1, 1) -> (1, 2) -> (1, 3) -> (1, 4) -> (1, 5) -> (2, 5) -> (3, 5) -> (4, 5) -> (5, 5) -> (5, 6) -> (5, 7) -> (5, 8) -> (5, 9) -> (5, 10) -> (5, 11) -> (5, 12) -> (5, 13) -> (4, 13) -> (3, 13) -> (3, 12) -> (3, 11) -> (3, 10) -> (3, 9) -> (3, 8) -> (3, 7) -> (2, 7) -> (1, 7) -> (1, 8) -> (1, 9) -> (1, 10) -> (1, 11) -> (1, 12) -> (1, 13) -> (1, 14) -> (1, 15) -> (2, 15) -> (3, 15) -> (4, 15) -> (5, 15) -> (6, 15) -> (7, 15)
+A*: found=True, length=40, expanded=64, valid=True
+Independent flood-fill shortest length = 40; A* optimal: True
+
+=== Test 2: goal adjacent to start ===
+A*: found=True, length=1, expanded=2, valid=True
+Path: [(1, 1), (1, 2)]
+
+=== Test 3: no solution ===
+A*: found=False, length=None, expanded=9, valid=n/a
+BFS: found=False, length=None, expanded=9, valid=n/a
+Independent ground truth: None (None = unreachable)
+
+=== Test 4: two or more S->G paths ===
+#######
+#S...##
+#*##.##
+#****G#
+#######
+A*: found=True, length=6, expanded=7, valid=True
+Independent shortest length = 6; A* returned a shortest path: True
+
+=== Randomised test: 300 random 8x12 maps (178 solvable) ===
+Disagreements with independent ground truth (A* and BFS): 0
+
+=== Task 5: BFS vs A* on the original warehouse ===
+| Measure | BFS | A* |
+|---|---|---|
+| Solution found | True | True |
+| Path length | 40 | 40 |
+| States expanded | 64 | 64 |
+(free cells in the map: 64)
+
+=== Supplementary: 10 x 20 open room with one shelf (S top-left, G bottom-right) ===
+######################
+#S.........#.........#
+#*.........#.........#
+#*.........#.........#
+#*.........#.........#
+#*.........#.........#
+#*.........#.........#
+#*.........#.........#
+#*.........#.........#
+#*...................#
+#*******************G#
+######################
+| Measure | BFS | A* (Manhattan) |
+|---|---|---|
+| Solution found | True | True |
+| Path length | 28 | 28 |
+| States expanded | 156 | 29 |
+A* with FIFO tie-breaking (ties in f broken by insertion order): expanded=120, length=28
+(true shortest = 28; free cells = 192)
+
+=== Task 6: heuristic investigation (original warehouse) ===
+| Heuristic | Found | Path length | Expanded | Optimal? |
+|---|---|---|---|---|
+| Manhattan | True | 40 | 64 | True |
+| h = 0 (Dijkstra/UCS) | True | 40 | 64 | True |
+| Euclidean | True | 40 | 64 | True |
+| 2 x Manhattan | True | 40 | 64 | True |
+
+Same four heuristics on the open room (true shortest = 28):
+| Heuristic | Path length | Expanded | Optimal? |
+|---|---|---|---|
+| Manhattan | 28 | 29 | True |
+| h = 0 | 28 | 156 | True |
+| Euclidean | 28 | 101 | True |
+| 2 x Manhattan | 28 | 29 | True |
+
+Second map designed so that overestimating hurts (true shortest = 10):
+| Heuristic | Path length | Expanded | Optimal? |
+|---|---|---|---|
+| Manhattan | 10 | 17 | True |
+| h = 0 | 10 | 21 | True |
+| Euclidean | 10 | 14 | True |
+| 2 x Manhattan | 10 | 18 | True |
+| 5 x Manhattan | 14 | 15 | False |

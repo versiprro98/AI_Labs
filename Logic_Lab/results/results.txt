@@ -1,0 +1,42 @@
+
+=== Test A: solvable warehouse problem ===
+Initial state: At(Package,A), At(Robot,A)
+Goal         : At(Package,C)
+Plan found   : PickUp(Package,A) -> Move(A,B) -> Move(B,C) -> Drop(Package,C)
+  S0: At(Package,A), At(Robot,A)
+  S1 after PickUp(Package,A): At(Robot,A), Holding(Package)
+  S2 after Move(A,B): At(Robot,B), Holding(Package)
+  S3 after Move(B,C): At(Robot,C), Holding(Package)
+  S4 after Drop(Package,C): At(Package,C), At(Robot,C)
+Independent validation: valid=True (final: robot at C, package at C, holding=False)
+
+=== Test B: PickUp removed (impossible) ===
+Initial state: At(Package,A), At(Robot,A)
+Goal         : At(Package,C)
+Plan found   : No plan found
+
+=== Test C1: only Move actions, goal = robot at C (robot-only goal) ===
+Initial state: At(Package,A), At(Robot,A)
+Goal         : At(Robot,C)
+Plan found   : Move(A,B) -> Move(B,C)
+  S0: At(Package,A), At(Robot,A)
+  S1 after Move(A,B): At(Package,A), At(Robot,B)
+  S2 after Move(B,C): At(Package,A), At(Robot,C)
+Independent validation: valid=True (final: robot at C, package at A, holding=False)
+
+=== Test C2: only Move actions, goal = package at C (must not confuse with robot at C) ===
+Initial state: At(Package,A), At(Robot,A)
+Goal         : At(Package,C)
+Plan found   : No plan found
+
+=== Test D: goal already satisfied ===
+Initial state: At(Package,C), At(Robot,C)
+Goal         : At(Package,C)
+Plan found   : (empty plan, goal already true)
+  S0: At(Package,C), At(Robot,C)
+Independent validation: valid=True (final: robot at C, package at C, holding=False)
+
+=== Test E: the plan sketched on the lab sheet ===
+Move(A,B): ok -> {At(Package,A), At(Robot,B)}
+PickUp(Package,B): NOT applicable in {At(Package,A), At(Robot,B)}; missing preconditions: ['At(Package,B)']
+Independent validation: valid=False (PickUp(Package,B): robot at B, package at A)

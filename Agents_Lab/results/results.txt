@@ -1,0 +1,38 @@
+--- Original warehouse ---
+#####################
+#S****#************G#
+#.##.***##########..#
+#....##.............#
+#.######.###.#.###..#
+#........#..........#
+#####################
+Path length : 20 moves
+Moves       : Right Right Right Right Down Right Right Up Right Right Right Right Right Right Right Right Right Right Right Right
+Expanded    : 21 states
+
+Independent BFS shortest path = 20 moves (agent found 20); BFS expanded 59 states
+
+--- Unreachable goal ---
+No path exists from S to G.
+States expanded before giving up: 1
+
+--- Warehouse twice as large in each direction ---
+##########################################
+##########################################
+##S*********##************************G.##
+##.........*##*.........................##
+##..####...****.####################....##
+##..####........####################....##
+##........####..........................##
+##........####..........................##
+##..############..######..##..######....##
+##..############..######..##..######....##
+##................##....................##
+##................##....................##
+##########################################
+##########################################
+Path length : 40 moves
+Moves       : Right Right Right Right Right Right Right Right Right Down Down Right Right Right Up Up Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right Right
+Expanded    : 50 states
+
+Independent BFS shortest path = 40 moves (agent found 40); BFS expanded 237 states
